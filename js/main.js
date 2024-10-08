@@ -5,7 +5,7 @@ import * as pdfjsLib from '../pdfjs-4.7.76-dist/build/pdf.mjs';
 pdfjsLib.GlobalWorkerOptions.workerSrc = '../pdfjs-4.7.76-dist/build/pdf.worker.mjs';
 
 // pdf location 
-const url = '../docs/sample-pdf.pdf'
+const url = '../docs/samplepdf.pdf' 
 
 // default values
 let pdfDoc = null, // document you get with pdf.js
@@ -127,7 +127,26 @@ pdfjsLib.getDocument(url).promise.then(pdf_Doc => {
     renderPage(pageNum)
 
 
-});
+})
+   
+    .catch(err => {
+
+        // create to div to display error
+        const div = document.createElement('div');
+
+        // set css class
+        div.className = 'error';
+
+        // append error message to div
+        div.appendChild(document.createTextNode(err.message));
+
+        // insert div before canvas element
+        document.querySelector('body').insertBefore(div, canvas)
+
+        // remove navbar
+        document.querySelector('.top-bar').style.display = 'none';
+
+    });
 
 
 // Button Events
