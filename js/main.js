@@ -27,7 +27,13 @@ const renderPage = num => {
 pdfjsLib.getDocument(url).promise.then(pdf_Doc => {
 
     pdfDoc = pdf_Doc;
+    
     console.log(pdfDoc);
+
+    // Add total page count to pagination
+    document.querySelector('#page-count').textContent = pdfDoc.numPages;
+
+
 });
 
 
