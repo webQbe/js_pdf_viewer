@@ -21,17 +21,30 @@ const scale = 1.5, // size
 // Render page
 const renderPage = num => {
 
+    pageIsRendering = true;
+
+    // get page
+    // getPage() returns a promise
+    pdfDoc.getPage(num).then(page => {
+
+        console.log(page);
+
+    });
+
 }
 
 // Get document
 pdfjsLib.getDocument(url).promise.then(pdf_Doc => {
 
     pdfDoc = pdf_Doc;
-    
+
     console.log(pdfDoc);
 
     // Add total page count to pagination
     document.querySelector('#page-count').textContent = pdfDoc.numPages;
+
+    // call renderPage() with intitial page
+    renderPage(pageNum)
 
 
 });
