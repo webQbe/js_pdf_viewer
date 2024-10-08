@@ -21,6 +21,7 @@ const scale = 1.5, // size
 // Render page
 const renderPage = num => {
 
+    // starting page rendering
     pageIsRendering = true;
 
     // get page
@@ -28,6 +29,37 @@ const renderPage = num => {
     pdfDoc.getPage(num).then(page => {
 
         console.log(page);
+
+        // set page scale
+        const viewport = page.getViewport({ scale });
+
+        // set canvas size
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const renderContext = {
+
+            canvasContext : context, viewport
+
+        }
+
+        page.render(renderContext).promise.then(() => {
+
+            // ending page rendering
+            pageIsRendering = false;
+
+            if(pageNumIsPending != null){
+
+                // pass page number
+                renderPage(pageNumIsPending);
+
+                pageNumIsPending = null;
+
+            }
+        });
+
+        // Output current page
+        document.querySelector('#page-num').textContent = num;
 
     });
 
