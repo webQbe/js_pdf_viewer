@@ -65,6 +65,54 @@ const renderPage = num => {
 
 }
 
+// Check for pages rendering
+const queueRenderPage = num => {
+
+    if(pageIsRendering){ 
+
+        pageNumIsPending = num;
+
+    } else {
+
+        renderPage(num);
+
+    } 
+}
+
+
+// Show Previous page
+const showPrevPage = () => {
+
+    // check if we're on first page
+    if(pageNum <= 1){
+        return;
+    }
+
+    // decrease page number
+    pageNum--;
+
+    // call queueRenderPage
+    queueRenderPage(pageNum);
+}
+
+
+// Show Next page
+const showNextPage = () => {
+
+    // check if we're on last page
+    if(pageNum >= pdfDoc.numPages){
+        return;
+    }
+
+    // increase page number
+    pageNum++;
+
+    // call queueRenderPage
+    queueRenderPage(pageNum);
+}
+
+
+
 // Get document
 pdfjsLib.getDocument(url).promise.then(pdf_Doc => {
 
@@ -82,4 +130,6 @@ pdfjsLib.getDocument(url).promise.then(pdf_Doc => {
 });
 
 
-
+// Button Events
+document.querySelector('#prev-page').addEventListener('click', showPrevPage);
+document.querySelector('#next-page').addEventListener('click', showNextPage);
